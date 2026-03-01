@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <meta name="description" content="AtomicVLA: Unlocking the Potential of Atomic Skill Learning in Robots">
+  <meta name="keywords" content="AtomicVLA, Skill, Robots">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AtomicVLA: Unlocking the Potential of Atomic Skill Learning in Robots</title>
+
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="DESCRIPTION META TAG">
+  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG" />
+  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG" />
+  <meta property="og:url" content="URL OF THE WEBSITE" />
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+
+  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" href="data:,">
+  <!-- <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"> -->
+  <!-- <link rel="icon" type="image/x-icon" href="static/images/icon2.png"> -->
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      /* background-color: #f5f5f5; */
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    /* 内容块 */
+    .content-block {
+      padding: 20px;
+    }
+
+    /* 奇数内容块背景色为灰色 */
+    .content-block:nth-child(odd) {
+      background-color: #f0f0f0;
+      /* 浅灰色 */
+    }
+
+    /* 偶数内容块背景色为白色 */
+    .content-block:nth-child(even) {
+      background-color: #ffffff;
+      /* 白色 */
+    }
+
+    /* 图片展示区域 */
+    .image-display {
+      position: relative;
+      width: 100%;
+      /* 移除固定高度，让高度根据图片自动调整 */
+      border: 1px solid #ccc;
+      background-color: #fff;
+      overflow: hidden;
+    }
+
+    .image-display img {
+      width: 100%;
+      height: auto;
+      /* 保持图片比例 */
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .image-display img.active {
+      display: block;
+      position: relative;
+      /* 使图片在正常流中显示，避免绝对定位带来的覆盖问题 */
+    }
+
+    /* 滑动条容器 */
+    .slider-container {
+      margin-top: 20px;
+    }
+
+    /* 自定义滑动条样式 */
+    input[type="range"] {
+      -webkit-appearance: none;
+      /* 移除默认样式 */
+      width: 100%;
+      height: 15px;
+      /* 增加滑动条高度 */
+      background: #d3d3d3;
+      border-radius: 5px;
+      outline: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 针对Webkit浏览器（Chrome、Safari等） */
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      /* 增大滑块大小 */
+      height: 25px;
+      background: #4CAF50;
+      cursor: pointer;
+      border-radius: 50%;
+      border: none;
+      margin-top: -5px;
+      /* 使滑块垂直居中 */
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 15px;
+      cursor: pointer;
+      background: #d3d3d3;
+      border-radius: 5px;
+    }
+
+    /* 针对Firefox浏览器 */
+    input[type="range"]::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #4CAF50;
+      cursor: pointer;
+      border-radius: 50%;
+      border: none;
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 15px;
+      cursor: pointer;
+      background: #d3d3d3;
+      border-radius: 5px;
+    }
+
+    /* 针对IE浏览器 */
+    input[type="range"]::-ms-thumb {
+      width: 25px;
+      height: 25px;
+      background: #4CAF50;
+      cursor: pointer;
+      border-radius: 50%;
+      border: none;
+    }
+
+    input[type="range"]::-ms-track {
+      height: 15px;
+      cursor: pointer;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
+    }
+
+    input[type="range"]::-ms-fill-lower {
+      background: #d3d3d3;
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-ms-fill-upper {
+      background: #d3d3d3;
+      border-radius: 5px;
+    }
+
+    /* 为滑动条添加过渡效果（可选） */
+    input[type="range"] {
+      transition: background 0.3s;
+    }
+
+    input[type="range"]:hover {
+      background: #c0c0c0;
+    }
+
+    /* 响应式图片展示优化 */
+    @media (max-width: 600px) {
+      .image-display {
+        border: none;
+        /* 移除边框，节省空间 */
+      }
+    }
+
+    .image-display img {
+      transition: opacity 0.5s ease;
+      opacity: 0;
+    }
+
+    .image-display img.active {
+      opacity: 1;
+      position: relative;
+    }
+
+    .neon-text {
+      font-size: 80px;
+      color: #fff;
+      text-align: center;
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0073e6, 0 0 40px #0073e6, 0 0 50px #0073e6, 0 0 60px #0073e6, 0 0 70px #0073e6;
+    }
+
+    .rainbow-text {
+      font-size: 200px;
+      font-weight: 900;
+      background: linear-gradient(45deg, #39eef6, #f86527, #fcd72d, #5f2cf8, #bed5f5);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .dynamic-text {
+      font-size: 55px;
+      font-weight: 900;
+      background: linear-gradient(45deg, #70f7fe, #fbd7c6, #fdefac, #bfb5dd, #bed5f5);
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: dynamic-gradient 10s linear infinite;
+    }
+
+    @keyframes dynamic-gradient {
+      from {
+        background-position: 0 0;
+      }
+
+      to {
+        background-position: 2000px 0;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <!-- <h1 class="title is-1 publication-title">AtomicVLA: Unlocking the Potential of Atomic Skill Learning in Robots</h1> -->
+            <h1 class="dynamic-text">
+              AtomicVLA
+            </h1>
+            <!-- <h1 class="title is-1 publication-title"> -->
+            <h3 class="title is-2">
+              Unlocking the Potential of Atomic Skill Learning in Robots
+            </h3>
+            <div class="is-size-5 publication-authors">
+              <!-- <span class="author-block">Institution Name<br>Conferance name and year</span> -->
+              <span class="author-block">CVPR 2026</span>
+              <!-- <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span> -->
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                Likui Zhang<sup>1</sup>,</span>
+              <span class="author-block">
+                Tao Tang<sup>2</sup>,</span>
+              <span class="author-block">
+                Zhihao Zhan</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                Xiuwei Chen<sup>2</sup>,
+              </span>
+              <span class="author-block">
+                Zisheng Cheng<sup>2</sup>,
+              </span>
+              <span class="author-block">
+                Jianhua Han<sup>3</sup>,
+              </span>
+              <span class="author-block">
+                Jiangtong Zhu<sup>3</sup>
+              </span>
+              <span class="author-block">
+                Pei Xu<sup>3</sup>
+              </span>
+              <span class="author-block">
+                Hang Xu<sup>3</sup>
+              </span>
+              <span class="author-block">
+                Hefeng Wu<sup>1</sup>,
+              </span>
+              <span class="author-block">
+                Liang Lin<sup>1*</sup>,
+              <span class="author-block">
+                Xiaodan Liang<sup>2,4*</sup>
+              </span>
+            </div>
+  
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Sun Yat-sen University</span>
+              <span class="author-block"><sup>2</sup>Shenzhen Campus of Sun Yat-sen University</span>
+              <span class="author-block"><sup>3</sup>Yinwang Intelligent Technology Co. Ltd.</span>
+              <span class="author-block"><sup>4</sup>Peng Cheng Laboratory</span>
+            </div>
+  
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>*</sup>Corresponding authors</span>
+            </div>
+  
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://www.arxiv.org/pdf/2512.05564"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://www.arxiv.org/abs/2512.05564"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href=""
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code (Coming Soon)</span>
+                    </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Teaser video-->
+  <section class="hero content-block">
+    <div class="container is-max-desktop">
+      <!-- <div class="hero-body"> -->
+      <!-- <h2 class="title is-3">Method Overview</h2> -->
+      <div class="item">
+        <!-- <img src="static/video/AtomicVLA.mp4" alt="MY ALT TEXT" />
+        <h2 style="font-size: 18px" class="subtitle has-text-centered"> -->
+        <video autoplay controls muted loop>
+          <source src="static/video/AtomicVLA.mp4" type="video/mp4">
+        </video>
+          <!-- <div class="content has-text-justified">
+            <p> <b>RoboPearls, an editable video simulation framework for robotic manipulation</b>. RoboPearls
+              reconstructs photo-realistic
+              scenes with semantic features from demonstration videos. Then, with various simulation operators,
+              RoboPearls leverages multiple LLM agents to process user commands into specific editing functions.
+              Furthermore, RoboPearls utilizes a VLM to analyze learning issues and generate corresponding simulation
+              demands to enhance robotic performance.
+            </p>
+          </div> -->
+        <!-- </h2> -->
+      </div>
+    </div>
+  </section>
+  <!-- End teaser video -->
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Recent advances in Visual-Language-Action (VLA) models have shown promising potential for robotic manipulation tasks.
+              However, real-world robotic tasks often involve long-horizon, multi-step problem-solving and require generalization for 
+              continual skill acquisition, extending beyond single actions or skills. These challenges present significant barriers for 
+              existing VLA models, which use monolithic action decoders trained on aggregated data, resulting in poor scalability.
+              To address these challenges, we propose AtomicVLA, a unified planning-and-execution framework that jointly generates 
+              task-level plans, atomic skill abstractions, and fine-grained actions. AtomicVLA constructs a scalable atomic skill library 
+              through a Skill-Guided Mixture-of-Experts (SG-MoE), where each expert specializes in mastering generic yet precise atomic skills. 
+              Furthermore, we introduce a flexible routing encoder that automatically assigns dedicated atomic experts to new skills, enabling continual learning.
+              We validate our approach through extensive experiments. In simulation, AtomicVLA outperforms &pi;<sub>0</sub> by 2.4% on LIBERO, 10% on LIBERO-LONG, and 
+              outperforms &pi;<sub>0</sub> and &pi;<sub>0.5</sub> by 0.22 and 0.25 in average task length on CALVIN. Additionally, our AtomicVLA consistently surpasses baselines 
+              by 18.3% and 21% in real-world long-horizon tasks and continual learning. These results highlight the effectiveness of atomic skill abstraction and 
+              dynamic expert composition for long-horizon and lifelong robotic tasks.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End paper abstract -->
+
+
+
+
+
+  <!-- Video carousel -->
+  <section class="hero content-block">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3">Method</h2>
+
+
+
+
+        <div class="item">
+          <!-- <h2 style="font-size: 23px" align="left" >
+          Failure-case Driven Framework.
+        </h2> -->
+          <!-- Your image here -->
+          <img src="static/images/framework.png" alt="MY ALT TEXT" />
+          <div class="content has-text-justified">
+            <p>
+              <b>(a) AtomicVLA Pipline.</b>
+              AtomicVLA is a framework that unifies task planning and action execution. The VLM adaptively predicts atomic skill abstraction and latent action. 
+              Action Decoder in the SG-MoE architecture receives both the latent action and the newly inferred atomic skill abstraction, and generates fine grained motor actions. 
+              <b>(b) Skill-Guided Mixture of Experts.</b>
+              SG-MoE includes a skill router, a shared expert, and multiple atomic-skill experts. The router selects the top skill expert based on the atomic skill, 
+              and the action token is processed by both the activated skill expert and the shared expert. 
+              <b>(c) Continual Learning with Skill Expansion.</b>
+              New skills are added by training only the new expert and extending the router.      
+              <b>(d) Task Planning Embodied Data Generation.</b>
+              High-quality embodied reasoning data are generated using principal-axis analysis with InternVideo2.5 model.
+              <!--            Neg: negative, Ign: ignore, Pos: positive, Mask: separate the normal queries and the denoising part to prevent information leakage.-->
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero is-light is-small">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Real World Results</h2>
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item">
+            <video poster="" autoplay controls muted loop playsinline height="100%">
+              <source src="static/video/real1.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item">
+            <video poster="" autoplay controls muted loop playsinline height="100%">
+              <source src="static/video/real2.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item">
+            <video poster="" autoplay controls muted loop playsinline height="100%">
+              <source src="static/video/real4.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item">
+            <video poster="" autoplay controls muted loop playsinline height="100%">
+              <source src="static/video/real3.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item">
+            <video poster="" autoplay controls muted loop playsinline height="100%">
+              <source src="static/video/real5.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item">
+            <video poster="" autoplay controls muted loop playsinline height="100%">
+              <source src="static/video/real6.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="hero is-small">
+    <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Comparison with Baselines</h2>
+      <div class="columns is-centered has-text-centered is-mobile is-gapless" style="margin-bottom: 10px;">
+        <div class="column"><h5 class="title is-6">π0</h5></div>
+        <div class="column"><h5 class="title is-6">π0.5</h5></div>
+        <div class="column"><h5 class="title is-6">AtomicVLA</h5></div>
+      </div>
+      
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/images/compare/pi0/rollout_2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/images/compare/pi05/rollout_2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/images/compare/AtomicVLA/rollout_2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/images/compare/pi0/rollout_67.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/images/compare/pi05/rollout_67.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/images/compare/AtomicVLA/rollout_67.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/images/compare/pi0/rollout_89.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/images/compare/pi05/rollout_89.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/images/compare/AtomicVLA/rollout_89.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container is-max-desktop">
+      <h3 class="title is-3 has-text-centered"> </h3>
+      <div class="columns is-centered has-text-centered is-mobile is-gapless" style="margin-bottom: 10px;">
+        <div class="column"><h5 class="title is-6">π0</h5></div>
+        <div class="column"><h5 class="title is-6">π0.5</h5></div>
+        <div class="column"><h5 class="title is-6">AtomicVLA</h5></div>
+      </div>
+      
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/video/Compares/pi/at1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/video/Compares/pi05/at1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/video/Compares/AtomicVLA/at1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/video/Compares/pi/at1.mp4"
+                    type="video/mp4">
+          </video>
+        </div> 
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/video/Compares/pi05/at1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item"> 
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/video/Compares/AtomicVLA/at1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/video/Compares/pi/at1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/video/Compares/pi05/at1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="static/video/Compares/AtomicVLA/at1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+  <!-- Statcounter tracking code -->
+
+  <!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+  <!-- End of Statcounter Code -->
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                target="_blank">Academic Project Page Template</a>.
+              This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"
+                target="_blank">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
